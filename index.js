@@ -8,7 +8,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const studentsPath = path.join(__dirname, "db.json");
 
-app.use(cors());
+app.use(cors(
+  origin: 'https://nodex-task-react.netlify.app/', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+));
 
 app.use(bodyParser.json());
 
