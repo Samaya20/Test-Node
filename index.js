@@ -8,11 +8,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const studentsPath = path.join(__dirname, "db.json");
 
-app.use(cors({
-  origin: ["https://my-nodex-server.vercel.app/students", "https://nodex-task-react.netlify.app"],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+const corsOptions = {
+  origin: 'https://nodex-task-react.netlify.app', // allow only this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // allowed methods
+  credentials: true, // enable set cookie
+  optionsSuccessStatus: 204 // some legacy browsers choke on 204
+};
+ 
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
@@ -55,11 +58,11 @@ app.get("/students/:id", (req, res) => {
 // Add Student endpoint
 app.post("/students", (req, res) => {
   fs.readFile(studentsPath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file: ", err);
-      res.status(500).json({ error: "Error reading students file" });
-      return;
-    }
+    // if (err) {
+    //   console.error("Error reading file: ", err);
+    //   res.status(500).json({ error: "Error reading students file" });
+    //   return;
+    // }
 
     const students = JSON.parse(data);
     const newStudent = {
